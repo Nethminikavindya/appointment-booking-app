@@ -13,7 +13,6 @@ public interface SalonService {
     Salon getSalonById(Long salonId) throws Exception;
     Salon getSalonByOwnerId(Long ownerId);
     List<Salon> searchSalonByOwnerId(String city);
-   // Salon deleteSalon(SalonDTO salon, UserDTO user);
 
 
 }

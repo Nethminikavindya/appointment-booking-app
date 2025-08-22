@@ -20,6 +20,7 @@ public class SalonServiceImpl implements SalonService {
     public Salon createSalon(SalonDTO req, UserDTO user) {
 
         Salon salon=new Salon();
+
         salon.setName(req.getName());
         salon.setAddress(req.getAddress());
         salon.setCity(req.getCity());
