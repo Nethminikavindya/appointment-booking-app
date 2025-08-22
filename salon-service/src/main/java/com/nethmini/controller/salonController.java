@@ -23,5 +23,6 @@ public class salonController {
         userDTO.setId(1L);
         Salon salon = salonService.createSalon(salonDTO, userDTO);
         return null;
+
     }
 }
