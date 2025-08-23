@@ -31,9 +31,7 @@ public class SalonServiceImpl implements SalonService {
         salon.setCloseTime(req.getCloseTime());
         salon.setPhoneNumber(req.getPhoneNumber());
 
-        salonRepository.save(salon);
-
-        return null;
+         return salonRepository.save(salon);
     }
 
     @Override
@@ -51,6 +49,7 @@ public class SalonServiceImpl implements SalonService {
             existingSalon.setCloseTime(salon.getCloseTime());
             existingSalon.setPhoneNumber(salon.getPhoneNumber());
 
+            return salonRepository.save(existingSalon);
         }
         throw new Exception("salon not exist");
     }
@@ -75,7 +74,7 @@ public class SalonServiceImpl implements SalonService {
     }
 
     @Override
-    public List<Salon> searchSalonByOwnerId(String city) {
+    public List<Salon> searchSalonByCity(String city) {
         return salonRepository.searchSalons(city);
     }
 }
