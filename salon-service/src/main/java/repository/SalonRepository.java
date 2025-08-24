@@ -1,4 +1,4 @@
-package com.nethmini.repository;
+package repository;
 
 import com.nethmini.modal.Salon;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,10 +1,10 @@
-package com.nethmini.service.impl;
+package service.impl;
 
 import com.nethmini.modal.Salon;
 import com.nethmini.payload.dto.SalonDTO;
 import com.nethmini.payload.dto.UserDTO;
-import com.nethmini.repository.SalonRepository;
-import com.nethmini.service.SalonService;
+import repository.SalonRepository;
+import service.SalonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

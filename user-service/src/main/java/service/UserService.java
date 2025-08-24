@@ -1,4 +1,4 @@
-package com.nethmini.service;
+package service;
 
 import com.nethmini.exception.UserException;
 import com.nethmini.modal.User;

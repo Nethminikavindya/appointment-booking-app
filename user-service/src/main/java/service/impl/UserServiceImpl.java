@@ -1,9 +1,9 @@
-package com.nethmini.service.impl;
+package service.impl;
 
 import com.nethmini.exception.UserException;
 import com.nethmini.modal.User;
-import com.nethmini.repository.UserRepository;
-import com.nethmini.service.UserService;
+import repository.UserRepository;
+import service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

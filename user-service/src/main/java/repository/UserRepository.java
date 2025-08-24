@@ -1,4 +1,4 @@
-package com.nethmini.repository;
+package repository;
 
 import com.nethmini.modal.User;
 import org.springframework.data.jpa.repository.JpaRepository;
