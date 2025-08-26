@@ -1,7 +1,7 @@
 package com.nethmini.controller;
 
 import com.nethmini.modal.User;
-import service.UserService;
+import com.nethmini.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
