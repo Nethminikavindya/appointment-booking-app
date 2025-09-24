@@ -1,0 +1,917 @@
+Index: payment-service/src/main/java/com/nethmini/payload/response/PaymentLinkResponse.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/payload/response/PaymentLinkResponse.java b/payment-service/src/main/java/com/nethmini/payload/response/PaymentLinkResponse.java
+new file mode 100644
+--- /dev/null	(date 1756263662392)
++++ b/payment-service/src/main/java/com/nethmini/payload/response/PaymentLinkResponse.java	(date 1756263662392)
+@@ -0,0 +1,15 @@
++package com.nethmini.payload.response;
++import com.fasterxml.jackson.annotation.JsonProperty;
++import lombok.Data;
++
++
++
++
++@Data
++public class PaymentLinkResponse {
++    @JsonProperty("short_url")
++    private String payment_link_url;
++
++    @JsonProperty("id")
++    private String payment_link_id;
++}
+Index: payment-service/src/main/java/com/nethmini/service/PaymentService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/service/PaymentService.java b/payment-service/src/main/java/com/nethmini/service/PaymentService.java
+new file mode 100644
+--- /dev/null	(date 1756295460056)
++++ b/payment-service/src/main/java/com/nethmini/service/PaymentService.java	(date 1756295460056)
+@@ -0,0 +1,33 @@
++package com.nethmini.service;
++
++import com.nethmini.domain.PaymentMethod;
++import com.nethmini.modal.PaymentOrder;
++import com.nethmini.payload.dto.BookingDTO;
++import com.nethmini.payload.dto.UserDTO;
++import com.nethmini.payload.response.PaymentLinkResponse;
++import com.stripe.exception.StripeException;
++import com.stripe.model.PaymentLink;
++
++public interface PaymentService {
++    PaymentLinkResponse createOrder(UserDTO user,
++                                    BookingDTO booking,
++                                    PaymentMethod paymentMethod
++                                    ) throws StripeException;
++
++    PaymentOrder getPaymentOrderById(Long id) throws Exception;
++
++    PaymentOrder getPaymentOrderByPaymentId(String paymentId);
++
++//    PaymentLink createPaypalPaymentLink(UserDTO user,
++//                                        Long amount,
++//                                        Long orderId);
++
++    String createStripePaymentLink(UserDTO user,
++                                        Long amount,
++                                        Long orderId) throws StripeException;
++
++    Boolean proceedPayment(PaymentOrder paymentOrder,
++                           String paymentId,
++                           String paymentLinkId);
++
++}
+Index: .idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Encoding\">\r\n    <file url=\"file://$PROJECT_DIR$/booking-service/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/category-service/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/salon-service/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/service-offering/src/main/java\" charset=\"UTF-8\" />\r\n    <file url=\"file://$PROJECT_DIR$/user-service/src/main/java\" charset=\"UTF-8\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/encodings.xml b/.idea/encodings.xml
+--- a/.idea/encodings.xml	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/.idea/encodings.xml	(date 1758700874807)
+@@ -3,6 +3,8 @@
+   <component name="Encoding">
+     <file url="file://$PROJECT_DIR$/booking-service/src/main/java" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/category-service/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/eureka-server/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/payment-service/src/main/java" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/salon-service/src/main/java" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/service-offering/src/main/java" charset="UTF-8" />
+     <file url="file://$PROJECT_DIR$/user-service/src/main/java" charset="UTF-8" />
+Index: user-service/src/main/java/com/nethmini/payload/response/ExceptionResponse.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user-service/src/main/java/com/nethmini/payload/response/ExceptionResponse.java b/user-service/src/main/java/com/nethmini/payload/ExceptionResponse.java
+rename from user-service/src/main/java/com/nethmini/payload/response/ExceptionResponse.java
+rename to user-service/src/main/java/com/nethmini/payload/ExceptionResponse.java
+--- a/user-service/src/main/java/com/nethmini/payload/response/ExceptionResponse.java	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/user-service/src/main/java/com/nethmini/payload/ExceptionResponse.java	(date 1756215368297)
+@@ -1,4 +1,4 @@
+-package com.nethmini.payload.response;
++package com.nethmini.payload;
+ 
+ import lombok.AllArgsConstructor;
+ import lombok.Getter;
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile default=\"true\" name=\"Default\" enabled=\"true\" />\r\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <module name=\"user-service\" />\r\n        <module name=\"category-service\" />\r\n        <module name=\"service-offering\" />\r\n        <module name=\"booking-service\" />\r\n      </profile>\r\n      <profile name=\"Annotation profile for salon-service\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <processorPath useClasspath=\"false\">\r\n          <entry name=\"$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar\" />\r\n        </processorPath>\r\n        <module name=\"salon-service\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n  </component>\r\n  <component name=\"JavacSettings\">\r\n    <option name=\"ADDITIONAL_OPTIONS_OVERRIDE\">\r\n      <module name=\"booking-service\" options=\"-parameters\" />\r\n      <module name=\"category-service\" options=\"-parameters\" />\r\n      <module name=\"salon-service\" options=\"-parameters\" />\r\n      <module name=\"service-offering\" options=\"-parameters\" />\r\n      <module name=\"user-service\" options=\"-parameters\" />\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/.idea/compiler.xml	(date 1758700874784)
+@@ -8,7 +8,9 @@
+         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+         <outputRelativeToContentRoot value="true" />
+         <module name="user-service" />
++        <module name="payment-service" />
+         <module name="category-service" />
++        <module name="eureka-server" />
+         <module name="service-offering" />
+         <module name="booking-service" />
+       </profile>
+@@ -27,6 +29,8 @@
+     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+       <module name="booking-service" options="-parameters" />
+       <module name="category-service" options="-parameters" />
++      <module name="eureka-server" options="-parameters" />
++      <module name="payment-service" options="-parameters" />
+       <module name="salon-service" options="-parameters" />
+       <module name="service-offering" options="-parameters" />
+       <module name="user-service" options="-parameters" />
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/user-service/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/salon-service/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/booking-service/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/category-service/pom.xml\" />\r\n        <option value=\"$PROJECT_DIR$/service-offering/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_21\" default=\"true\" project-jdk-name=\"21\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/.idea/misc.xml	(date 1758700874779)
+@@ -7,8 +7,10 @@
+         <option value="$PROJECT_DIR$/user-service/pom.xml" />
+         <option value="$PROJECT_DIR$/salon-service/pom.xml" />
+         <option value="$PROJECT_DIR$/booking-service/pom.xml" />
++        <option value="$PROJECT_DIR$/payment-service/pom.xml" />
+         <option value="$PROJECT_DIR$/category-service/pom.xml" />
+         <option value="$PROJECT_DIR$/service-offering/pom.xml" />
++        <option value="$PROJECT_DIR$/eureka-server/pom.xml" />
+       </list>
+     </option>
+   </component>
+Index: payment-service/src/main/java/com/nethmini/payload/dto/BookingRequest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/payload/dto/BookingRequest.java b/payment-service/src/main/java/com/nethmini/payload/dto/BookingRequest.java
+new file mode 100644
+--- /dev/null	(date 1756215368373)
++++ b/payment-service/src/main/java/com/nethmini/payload/dto/BookingRequest.java	(date 1756215368373)
+@@ -0,0 +1,14 @@
++package com.nethmini.payload.dto;
++
++import lombok.Data;
++
++import java.time.LocalDateTime;
++import java.util.Set;
++
++@Data
++public class BookingRequest {
++
++ private LocalDateTime startTime;
++ private LocalDateTime endTime;
++ private Set<Long> serviceIds;
++}
+Index: user-service/src/main/java/com/nethmini/exception/GlobalExceptionHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.nethmini.exception;\r\n\r\nimport com.nethmini.payload.response.ExceptionResponse;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.ControllerAdvice;\r\nimport org.springframework.web.bind.annotation.ExceptionHandler;\r\nimport org.springframework.web.context.request.WebRequest;\r\n\r\nimport java.time.LocalDateTime;\r\n\r\n@ControllerAdvice\r\npublic class GlobalExceptionHandler {\r\n\r\n    @ExceptionHandler(Exception.class)\r\n    public ResponseEntity<ExceptionResponse> ExceptionHandler(Exception ex, WebRequest req) {\r\n        ExceptionResponse response =new ExceptionResponse(\r\n            ex.getMessage(),\r\n            req.getDescription(false),LocalDateTime.now()\r\n        );\r\n        return ResponseEntity.ok(response);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user-service/src/main/java/com/nethmini/exception/GlobalExceptionHandler.java b/user-service/src/main/java/com/nethmini/exception/GlobalExceptionHandler.java
+--- a/user-service/src/main/java/com/nethmini/exception/GlobalExceptionHandler.java	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/user-service/src/main/java/com/nethmini/exception/GlobalExceptionHandler.java	(date 1756215368337)
+@@ -1,6 +1,6 @@
+ package com.nethmini.exception;
+ 
+-import com.nethmini.payload.response.ExceptionResponse;
++import com.nethmini.payload.ExceptionResponse;
+ import org.springframework.http.ResponseEntity;
+ import org.springframework.web.bind.annotation.ControllerAdvice;
+ import org.springframework.web.bind.annotation.ExceptionHandler;
+Index: user-service/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/user-service/src/main/resources/application.properties b/user-service/src/main/resources/application.yml
+rename from user-service/src/main/resources/application.properties
+rename to user-service/src/main/resources/application.yml
+--- a/user-service/src/main/resources/application.properties	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/user-service/src/main/resources/application.yml	(date 1758715097906)
+@@ -1,10 +1,25 @@
+-spring.application.name=user-service
++server:
++  port: 5001
++spring:
++  application:
++    name: user-service
++  jpa:
++    hibernate:
++      ddl-auto: update
++    show-sql: true
++  datasource:
++    url: jdbc:mysql://localhost:3306/userdb
++    username: root
++    password: Nethmysql@17
++    driver-class-name: com.mysql.cj.jdbc.Driver
+ 
+-server.port=5001
++eureka:
++  instance:
++    prefer-ip-address: true
++  client:
++    register-with-eureka: true
++    fetch-registry: true
++    service-url:
++      defaultZone: http://localhost:8070/eureka/
+ 
+-spring.jpa.hibernate.ddl-auto=update
+-spring.datasource.url=jdbc:mysql://localhost:3306/userdb
+-spring.datasource.username=root
+-spring.datasource.password=Nethmysql@17
+-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+-spring.jpa.show-sql: true
+\ No newline at end of file
++
+Index: payment-service/src/main/java/com/nethmini/domain/BookingStatus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/domain/BookingStatus.java b/payment-service/src/main/java/com/nethmini/domain/BookingStatus.java
+new file mode 100644
+--- /dev/null	(date 1756095685835)
++++ b/payment-service/src/main/java/com/nethmini/domain/BookingStatus.java	(date 1756095685835)
+@@ -0,0 +1,7 @@
++package com.nethmini.domain;
++
++public enum BookingStatus {
++    PENDING,
++    CONFIRMED,
++    CANCELLED,
++}
+Index: payment-service/src/main/java/com/nethmini/controller/PaymentController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/controller/PaymentController.java b/payment-service/src/main/java/com/nethmini/controller/PaymentController.java
+new file mode 100644
+--- /dev/null	(date 1757784247432)
++++ b/payment-service/src/main/java/com/nethmini/controller/PaymentController.java	(date 1757784247432)
+@@ -0,0 +1,52 @@
++package com.nethmini.controller;
++
++import com.nethmini.domain.PaymentMethod;
++import com.nethmini.modal.PaymentOrder;
++import com.nethmini.payload.dto.BookingDTO;
++import com.nethmini.payload.dto.UserDTO;
++import com.nethmini.payload.response.PaymentLinkResponse;
++import com.nethmini.service.PaymentService;
++import com.stripe.exception.StripeException;
++import lombok.RequiredArgsConstructor;
++import org.springframework.http.ResponseEntity;
++import org.springframework.web.bind.annotation.*;
++
++@RequiredArgsConstructor
++@RestController
++@RequestMapping("/api/payments")
++
++public class PaymentController{
++
++    private final PaymentService paymentService;
++
++    @PostMapping("/create")
++    public ResponseEntity<PaymentLinkResponse> createPaymentLink(
++          @RequestBody BookingDTO booking,
++          @RequestParam PaymentMethod paymentMethod
++    ) throws StripeException {
++        UserDTO user=new UserDTO();
++        user.setFullName("John Doe");
++        user.setEmail("nethkavi@gmail.com");
++        user.setId(1L);
++        PaymentLinkResponse res=paymentService.createOrder(user, booking, paymentMethod);
++        return ResponseEntity.ok(res);
++    }
++
++    @GetMapping("/{paymentOrderId}")
++    public ResponseEntity<PaymentOrder> getPaymentOrderById(
++            @PathVariable Long paymentOrderId
++    ) throws Exception {
++       PaymentOrder res=paymentService.getPaymentOrderById(paymentOrderId);
++        return ResponseEntity.ok(res);
++    }
++
++    @PatchMapping("/proceed")
++    public ResponseEntity<Boolean> proceedPayment (
++            @RequestParam String paymentId,
++            @RequestParam String paymentLinkId
++    ) throws Exception {
++        PaymentOrder paymentOrder=paymentService.getPaymentOrderByPaymentId(paymentId);
++        Boolean res=paymentService.proceedPayment(paymentOrder,paymentId,paymentLinkId);
++        return ResponseEntity.ok(res);
++    }
++}
+Index: payment-service/src/main/java/com/nethmini/repository/PaymentOrderRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/repository/PaymentOrderRepository.java b/payment-service/src/main/java/com/nethmini/repository/PaymentOrderRepository.java
+new file mode 100644
+--- /dev/null	(date 1756219694876)
++++ b/payment-service/src/main/java/com/nethmini/repository/PaymentOrderRepository.java	(date 1756219694876)
+@@ -0,0 +1,8 @@
++package com.nethmini.repository;
++
++import com.nethmini.modal.PaymentOrder;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++public interface PaymentOrderRepository extends JpaRepository<PaymentOrder, Long> {
++    PaymentOrder findByPaymentLinkId(String paymentLinkId);
++}
+Index: salon-service/src/main/java/service/SalonService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/salon-service/src/main/java/service/SalonService.java b/salon-service/src/main/java/com/nethmini/service/SalonService.java
+rename from salon-service/src/main/java/service/SalonService.java
+rename to salon-service/src/main/java/com/nethmini/service/SalonService.java
+--- a/salon-service/src/main/java/service/SalonService.java	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/salon-service/src/main/java/com/nethmini/service/SalonService.java	(date 1756208293197)
+@@ -1,4 +1,4 @@
+-package service;
++package com.nethmini.service;
+ 
+ import com.nethmini.modal.Salon;
+ import com.nethmini.payload.dto.SalonDTO;
+Index: salon-service/src/main/java/service/impl/SalonServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/salon-service/src/main/java/service/impl/SalonServiceImpl.java b/salon-service/src/main/java/com/nethmini/service/impl/SalonServiceImpl.java
+rename from salon-service/src/main/java/service/impl/SalonServiceImpl.java
+rename to salon-service/src/main/java/com/nethmini/service/impl/SalonServiceImpl.java
+--- a/salon-service/src/main/java/service/impl/SalonServiceImpl.java	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/salon-service/src/main/java/com/nethmini/service/impl/SalonServiceImpl.java	(date 1756208293208)
+@@ -1,10 +1,10 @@
+-package service.impl;
++package com.nethmini.service.impl;
+ 
+ import com.nethmini.modal.Salon;
+ import com.nethmini.payload.dto.SalonDTO;
+ import com.nethmini.payload.dto.UserDTO;
+-import repository.SalonRepository;
+-import service.SalonService;
++import com.nethmini.repository.SalonRepository;
++import com.nethmini.service.SalonService;
+ import lombok.RequiredArgsConstructor;
+ import org.springframework.stereotype.Service;
+ 
+Index: salon-service/src/main/java/com/nethmini/controller/SalonController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.nethmini.controller;\r\n\r\nimport com.nethmini.mapper.SalonMapper;\r\nimport com.nethmini.modal.Salon;\r\nimport com.nethmini.payload.dto.SalonDTO;\r\nimport com.nethmini.payload.dto.UserDTO;\r\nimport service.SalonService;\r\nimport lombok.RequiredArgsConstructor;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.util.List;\r\n\r\n\r\n@RestController\r\n@RequestMapping(\"/api/salons\")\r\n@RequiredArgsConstructor\r\npublic class SalonController {\r\n\r\n    private final SalonService salonService;\r\n\r\n    @PostMapping\r\n    public ResponseEntity<SalonDTO> createSalon(@RequestBody SalonDTO salonDTO){\r\n        UserDTO userDTO = new UserDTO();\r\n        userDTO.setId(1L);\r\n        Salon salon = salonService.createSalon(salonDTO, userDTO);\r\n        SalonDTO salonDTO1 = SalonMapper.mapToDTO(salon);\r\n        return ResponseEntity.ok(salonDTO1);\r\n\r\n    }\r\n    @PatchMapping(\"/{salonId}\")\r\n    public ResponseEntity<SalonDTO> updateSalon(\r\n            @PathVariable(\"salonId\") Long salonId,\r\n            @RequestBody SalonDTO salonDTO) throws Exception {\r\n        UserDTO userDTO = new UserDTO();\r\n        userDTO.setId(1L);\r\n        Salon salon = salonService.updateSalon(salonDTO, userDTO,salonId);\r\n        SalonDTO salonDTO1 = SalonMapper.mapToDTO(salon);\r\n        return ResponseEntity.ok(salonDTO1);\r\n    }\r\n\r\n    @GetMapping\r\n    public ResponseEntity<List<SalonDTO>>getSalons()  {\r\n\r\n        List<Salon> salons = salonService.getAllSalons();\r\n\r\n        List<SalonDTO> salonDTOs = salons.stream().map((salon) ->\r\n        {\r\n            SalonDTO salonDTO = SalonMapper.mapToDTO(salon);\r\n            return salonDTO;\r\n        }).toList();\r\n\r\n        return ResponseEntity.ok(salonDTOs);\r\n        }\r\n\r\n    @GetMapping(\"/{salonId}\")\r\n    public ResponseEntity<SalonDTO> getSalonById(\r\n            @PathVariable(\"salonId\")  Long salonId\r\n            ) throws Exception {\r\n        UserDTO userDTO = new UserDTO();\r\n        userDTO.setId(1L);\r\n        Salon salon = salonService.getSalonById(salonId);\r\n\r\n        SalonDTO salonDTO = SalonMapper.mapToDTO(salon);\r\n        return ResponseEntity.ok(salonDTO);\r\n    }\r\n\r\n    @GetMapping(\"/search\")\r\n    public ResponseEntity<List<SalonDTO>> searchSalons(\r\n            @RequestParam(\"city\") String city\r\n    ) {\r\n\r\n        List<Salon> salons = salonService.searchSalonByCity(city);\r\n\r\n        List<SalonDTO> salonDTOs = salons.stream().map((salon) ->\r\n        {\r\n            SalonDTO salonDTO = SalonMapper.mapToDTO(salon);\r\n            return salonDTO;\r\n        }).toList();\r\n\r\n        return ResponseEntity.ok(salonDTOs);\r\n    }\r\n\r\n    @GetMapping(\"/owner\")\r\n    public ResponseEntity<SalonDTO> getSalonByOwnerId(\r\n            @PathVariable Long salonId\r\n    )  {\r\n        UserDTO userDTO = new UserDTO();\r\n        userDTO.setId(1L);\r\n\r\n        Salon salon = salonService.getSalonByOwnerId(userDTO.getId());\r\n\r\n        SalonDTO salonDTO = SalonMapper.mapToDTO(salon);\r\n        return ResponseEntity.ok(salonDTO);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/salon-service/src/main/java/com/nethmini/controller/SalonController.java b/salon-service/src/main/java/com/nethmini/controller/SalonController.java
+--- a/salon-service/src/main/java/com/nethmini/controller/SalonController.java	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/salon-service/src/main/java/com/nethmini/controller/SalonController.java	(date 1756208272121)
+@@ -4,7 +4,7 @@
+ import com.nethmini.modal.Salon;
+ import com.nethmini.payload.dto.SalonDTO;
+ import com.nethmini.payload.dto.UserDTO;
+-import service.SalonService;
++import com.nethmini.service.SalonService;
+ import lombok.RequiredArgsConstructor;
+ import org.springframework.http.ResponseEntity;
+ import org.springframework.web.bind.annotation.*;
+Index: salon-service/src/main/java/repository/SalonRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/salon-service/src/main/java/repository/SalonRepository.java b/salon-service/src/main/java/com/nethmini/repository/SalonRepository.java
+rename from salon-service/src/main/java/repository/SalonRepository.java
+rename to salon-service/src/main/java/com/nethmini/repository/SalonRepository.java
+--- a/salon-service/src/main/java/repository/SalonRepository.java	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/salon-service/src/main/java/com/nethmini/repository/SalonRepository.java	(date 1756208293222)
+@@ -1,4 +1,4 @@
+-package repository;
++package com.nethmini.repository;
+ 
+ import com.nethmini.modal.Salon;
+ import org.springframework.data.jpa.repository.JpaRepository;
+Index: salon-service/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n\txsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n\t<modelVersion>4.0.0</modelVersion>\r\n\t<parent>\r\n\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t<artifactId>spring-boot-starter-parent</artifactId>\r\n\t\t<version>3.5.5</version>\r\n\t\t<relativePath/> <!-- lookup parent from repository -->\r\n\t</parent>\r\n\t<groupId>com.nethmini</groupId>\r\n\t<artifactId>salon-service</artifactId>\r\n\t<version>0.0.1-SNAPSHOT</version>\r\n\t<name>salon-service</name>\r\n\t<description>salon microservice for salon booking system</description>\r\n\t<url/>\r\n\t<licenses>\r\n\t\t<license/>\r\n\t</licenses>\r\n\t<developers>\r\n\t\t<developer/>\r\n\t</developers>\r\n\t<scm>\r\n\t\t<connection/>\r\n\t\t<developerConnection/>\r\n\t\t<tag/>\r\n\t\t<url/>\r\n\t</scm>\r\n\t<properties>\r\n\t\t<java.version>21</java.version>\r\n\t</properties>\r\n\t<dependencies>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-validation</artifactId>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-web</artifactId>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-devtools</artifactId>\r\n\t\t\t<scope>runtime</scope>\r\n\t\t\t<optional>true</optional>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.projectlombok</groupId>\r\n\t\t\t<artifactId>lombok</artifactId>\r\n\t\t\t<optional>true</optional>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-test</artifactId>\r\n\t\t\t<scope>test</scope>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>com.mysql</groupId>\r\n\t\t\t<artifactId>mysql-connector-j</artifactId>\r\n\t\t\t<scope>runtime</scope>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-data-jpa</artifactId>\r\n\t\t</dependency>\r\n\t</dependencies>\r\n\r\n\t<build>\r\n\t\t<plugins>\r\n\t\t\t<plugin>\r\n\t\t\t\t<groupId>org.apache.maven.plugins</groupId>\r\n\t\t\t\t<artifactId>maven-compiler-plugin</artifactId>\r\n\t\t\t\t<configuration>\r\n\t\t\t\t\t<annotationProcessorPaths>\r\n\t\t\t\t\t\t<path>\r\n\t\t\t\t\t\t\t<groupId>org.projectlombok</groupId>\r\n\t\t\t\t\t\t\t<artifactId>lombok</artifactId>\r\n\t\t\t\t\t\t</path>\r\n\t\t\t\t\t</annotationProcessorPaths>\r\n\t\t\t\t</configuration>\r\n\t\t\t</plugin>\r\n\t\t\t<plugin>\r\n\t\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t\t<artifactId>spring-boot-maven-plugin</artifactId>\r\n\t\t\t\t<configuration>\r\n\t\t\t\t\t<excludes>\r\n\t\t\t\t\t\t<exclude>\r\n\t\t\t\t\t\t\t<groupId>org.projectlombok</groupId>\r\n\t\t\t\t\t\t\t<artifactId>lombok</artifactId>\r\n\t\t\t\t\t\t</exclude>\r\n\t\t\t\t\t</excludes>\r\n\t\t\t\t</configuration>\r\n\t\t\t</plugin>\r\n\t\t</plugins>\r\n\t</build>\r\n\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/salon-service/pom.xml b/salon-service/pom.xml
+--- a/salon-service/pom.xml	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/salon-service/pom.xml	(date 1758714327691)
+@@ -28,7 +28,19 @@
+ 	</scm>
+ 	<properties>
+ 		<java.version>21</java.version>
++		<spring-cloud.version>2025.0.0</spring-cloud.version>
+ 	</properties>
++	<dependencyManagement>
++		<dependencies>
++			<dependency>
++				<groupId>org.springframework.cloud</groupId>
++				<artifactId>spring-cloud-dependencies</artifactId>
++				<version>${spring-cloud.version}</version>
++				<type>pom</type>
++				<scope>import</scope>
++			</dependency>
++		</dependencies>
++	</dependencyManagement>
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>org.springframework.boot</groupId>
+@@ -63,6 +75,10 @@
+ 		<dependency>
+ 			<groupId>org.springframework.boot</groupId>
+ 			<artifactId>spring-boot-starter-data-jpa</artifactId>
++		</dependency>
++		<dependency>
++			<groupId>org.springframework.cloud</groupId>
++			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+ 		</dependency>
+ 	</dependencies>
+ 
+Index: booking-service/src/main/java/com/nethmini/modal/SalonReport.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.nethmini.modal;\r\n\r\nimport lombok.Data;\r\n\r\n@Data\r\npublic class SalonReport {\r\n    private Long salonId;\r\n    private String salonName;\r\n    private int totalEarnings;\r\n    private Integer totalBookings;\r\n    private Integer cancelledBookings;\r\n    private Double totalRefund;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/nethmini/modal/SalonReport.java b/booking-service/src/main/java/com/nethmini/modal/SalonReport.java
+--- a/booking-service/src/main/java/com/nethmini/modal/SalonReport.java	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/booking-service/src/main/java/com/nethmini/modal/SalonReport.java	(date 1756281662242)
+@@ -3,8 +3,7 @@
+ import lombok.Data;
+ 
+ @Data
+-public class SalonReport {
+-    private Long salonId;
++public class SalonReport { private Long salonId;
+     private String salonName;
+     private int totalEarnings;
+     private Integer totalBookings;
+Index: salon-service/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/salon-service/src/main/resources/application.properties b/salon-service/src/main/resources/application.yml
+rename from salon-service/src/main/resources/application.properties
+rename to salon-service/src/main/resources/application.yml
+--- a/salon-service/src/main/resources/application.properties	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/salon-service/src/main/resources/application.yml	(date 1758714947585)
+@@ -1,10 +1,26 @@
+-spring.application.name=salon-service
++
++server:
++  port: 5002
++spring:
++  application:
++    name: salon-service
++  jpa:
++    hibernate:
++      ddl-auto: update
++    show-sql: true
++  datasource:
++    url: jdbc:mysql://localhost:3306/salondb
++    username: root
++    password: Nethmysql@17
++    driver-class-name: com.mysql.cj.jdbc.Driver
+ 
+-server.port=5002
++eureka:
++  instance:
++    prefer-ip-address: true
++  client:
++    register-with-eureka: true
++    fetch-registry: true
++    service-url:
++      defaultZone: http://localhost:8070/eureka/
+ 
+-spring.jpa.hibernate.ddl-auto=update
+-spring.datasource.url=jdbc:mysql://localhost:3306/salondb
+-spring.datasource.username=root
+-spring.datasource.password=Nethmysql@17
+-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+-spring.jpa.show-sql: true
+\ No newline at end of file
++
+Index: .idea/dataSources.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/dataSources.xml b/.idea/dataSources.xml
+new file mode 100644
+--- /dev/null	(date 1756280303107)
++++ b/.idea/dataSources.xml	(date 1756280303107)
+@@ -0,0 +1,70 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
++    <data-source source="LOCAL" name="bookingdb@localhost" uuid="61ec21a7-f7d8-4e0e-9c31-9dd503681802">
++      <driver-ref>mysql.8</driver-ref>
++      <synchronize>true</synchronize>
++      <imported>true</imported>
++      <remarks>$PROJECT_DIR$/booking-service/src/main/resources/application.properties</remarks>
++      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
++      <jdbc-url>jdbc:mysql://localhost:3306/bookingdb</jdbc-url>
++      <working-dir>$ProjectFileDir$</working-dir>
++    </data-source>
++    <data-source source="LOCAL" name="salondb@localhost" uuid="01bcc8a3-e84e-43bd-85b0-8c6c238e7eb3">
++      <driver-ref>mysql.8</driver-ref>
++      <synchronize>true</synchronize>
++      <imported>true</imported>
++      <remarks>$PROJECT_DIR$/salon-service/src/main/resources/application.properties</remarks>
++      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
++      <jdbc-url>jdbc:mysql://localhost:3306/salondb</jdbc-url>
++      <working-dir>$ProjectFileDir$</working-dir>
++    </data-source>
++    <data-source source="LOCAL" name="paymentdb@localhost" uuid="b2b512a6-c5cc-44c2-ba2f-d161791ecebc">
++      <driver-ref>mysql.8</driver-ref>
++      <synchronize>true</synchronize>
++      <imported>true</imported>
++      <remarks>$PROJECT_DIR$/payment-service/src/main/resources/application.properties</remarks>
++      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
++      <jdbc-url>jdbc:mysql://localhost:3306/paymentdb?createDatabaseIfNotExist=true</jdbc-url>
++      <jdbc-additional-properties>
++        <property name="com.intellij.clouds.kubernetes.db.host.port" />
++        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
++        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Deployment" />
++        <property name="com.intellij.clouds.kubernetes.db.container.port" />
++      </jdbc-additional-properties>
++      <working-dir>$ProjectFileDir$</working-dir>
++    </data-source>
++    <data-source source="LOCAL" name="userdb@localhost" uuid="d9c634ce-03dd-4911-8440-70eb806eb0a8">
++      <driver-ref>mysql.8</driver-ref>
++      <synchronize>true</synchronize>
++      <imported>true</imported>
++      <remarks>$PROJECT_DIR$/user-service/src/main/resources/application.properties</remarks>
++      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
++      <jdbc-url>jdbc:mysql://localhost:3306/userdb</jdbc-url>
++      <working-dir>$ProjectFileDir$</working-dir>
++    </data-source>
++    <data-source source="LOCAL" name="servicesdb@localhost" uuid="0035212b-fe94-422e-80d5-4f59971e403a">
++      <driver-ref>mysql.8</driver-ref>
++      <synchronize>true</synchronize>
++      <imported>true</imported>
++      <remarks>$PROJECT_DIR$/service-offering/src/main/resources/application.properties</remarks>
++      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
++      <jdbc-url>jdbc:mysql://localhost:3306/servicesdb</jdbc-url>
++      <jdbc-additional-properties>
++        <property name="com.intellij.clouds.kubernetes.db.host.port" />
++        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
++        <property name="com.intellij.clouds.kubernetes.db.container.port" />
++      </jdbc-additional-properties>
++      <working-dir>$ProjectFileDir$</working-dir>
++    </data-source>
++    <data-source source="LOCAL" name="categorydb@localhost" uuid="1b68f654-86b4-43ef-b535-1029da56c181">
++      <driver-ref>mysql.8</driver-ref>
++      <synchronize>true</synchronize>
++      <imported>true</imported>
++      <remarks>$PROJECT_DIR$/category-service/src/main/resources/application.properties</remarks>
++      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
++      <jdbc-url>jdbc:mysql://localhost:3306/categorydb</jdbc-url>
++      <working-dir>$ProjectFileDir$</working-dir>
++    </data-source>
++  </component>
++</project>
+\ No newline at end of file
+Index: payment-service/src/main/java/com/nethmini/modal/PaymentOrder.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/modal/PaymentOrder.java b/payment-service/src/main/java/com/nethmini/modal/PaymentOrder.java
+new file mode 100644
+--- /dev/null	(date 1756209661565)
++++ b/payment-service/src/main/java/com/nethmini/modal/PaymentOrder.java	(date 1756209661565)
+@@ -0,0 +1,36 @@
++package com.nethmini.modal;
++
++import com.nethmini.domain.PaymentMethod;
++import com.nethmini.domain.PaymentOrderStatus;
++import jakarta.persistence.*;
++import lombok.Data;
++
++@Entity
++@Data
++public class PaymentOrder {
++
++    @Id
++    @GeneratedValue(strategy = GenerationType.AUTO)
++    private Long id;
++
++    @Column(nullable = false)
++    private Long amount;
++
++    @Column(nullable = false)
++    private PaymentOrderStatus status=PaymentOrderStatus.PENDING;
++
++    @Column(nullable = false)
++    private PaymentMethod paymentMethod;
++
++    private String paymentLinkId ;
++
++    @Column(nullable = false)
++    private Long userId;
++
++    @Column(nullable = false)
++    private Long bookingId;
++
++    @Column(nullable = false)
++    private Long salonId;
++
++}
+Index: payment-service/src/main/java/com/nethmini/service/impl/PaymentServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/service/impl/PaymentServiceImpl.java b/payment-service/src/main/java/com/nethmini/service/impl/PaymentServiceImpl.java
+new file mode 100644
+--- /dev/null	(date 1757785147899)
++++ b/payment-service/src/main/java/com/nethmini/service/impl/PaymentServiceImpl.java	(date 1757785147899)
+@@ -0,0 +1,163 @@
++package com.nethmini.service.impl;
++
++import com.nethmini.domain.PaymentMethod;
++import com.nethmini.domain.PaymentOrderStatus;
++import com.nethmini.modal.PaymentOrder;
++import com.nethmini.payload.dto.BookingDTO;
++import com.nethmini.payload.dto.UserDTO;
++import com.nethmini.payload.response.PaymentLinkResponse;
++import com.nethmini.repository.PaymentOrderRepository;
++import com.nethmini.service.PaymentService;
++import com.stripe.Stripe;
++import com.stripe.exception.StripeException;
++import com.stripe.model.checkout.Session;
++import com.stripe.param.checkout.SessionCreateParams;
++import com.stripe.model.PaymentLink;
++import com.stripe.param.checkout.SessionCreateParams;
++import lombok.RequiredArgsConstructor;
++import org.springframework.beans.factory.annotation.Value;
++import org.springframework.stereotype.Service;
++
++@Service
++@RequiredArgsConstructor
++public class PaymentServiceImpl implements PaymentService {
++
++    private final PaymentOrderRepository
++            paymentOrderRepository;
++
++    @Value("${stripe.api.key}")
++    private String stripeSecretKey;
++
++    //    @Value("${paypal.api.key}")
++    //    private String paypalApiKey;
++    //
++    //    @Value("${paypal.api.secret}")
++    //    private String paypalApiSecret;
++
++
++    @Override
++    public PaymentLinkResponse createOrder(UserDTO user, BookingDTO booking, PaymentMethod paymentMethod) throws StripeException {
++        Long amount=(long) booking.getTotalPrice();
++
++        PaymentOrder order = new PaymentOrder();
++
++        order.setAmount(amount);
++        order.setPaymentMethod(paymentMethod);
++        order.setBookingId(booking.getId());
++        order.setSalonId(booking.getSalonId());
++        PaymentOrder savedOrder = paymentOrderRepository.save(order);
++
++        PaymentLinkResponse paymentLinkResponse=new PaymentLinkResponse() ;
++
++
++        if(paymentMethod.equals(PaymentMethod.STRIPE))
++//        {
++//            PaymentLink payment = createPaypalPaymentLink(user,
++//                    savedOrder.getAmount(),
++//                    savedOrder.getId());
++//            String paymentUrl=payment.getUrl();
++//            String paymentUrlId=payment.getId();
++//
++//            paymentLinkResponse.setPayment_link_url(paymentUrl);
++//            paymentLinkResponse.setPayment_link_id(paymentUrlId);
++//
++//            savedOrder.setPaymentLinkId(paymentUrlId);
++//
++//            paymentOrderRepository.save(savedOrder);
++//        }else
++        {
++            String paymentUrl=createStripePaymentLink(user,
++                    savedOrder.getAmount(),
++                    savedOrder.getId() );
++            paymentLinkResponse.setPayment_link_url(paymentUrl);
++            }
++                return paymentLinkResponse;
++    }
++
++    @Override
++    public PaymentOrder getPaymentOrderById(Long id) throws Exception {
++        PaymentOrder paymentOrder = paymentOrderRepository.findById(id).orElse(null);
++        if(paymentOrder==null) {
++            throw new Exception("payment order not found");
++        }
++        return paymentOrder;
++    }
++
++    @Override
++    public PaymentOrder getPaymentOrderByPaymentId(String paymentId) {
++        return paymentOrderRepository.findByPaymentLinkId(paymentId);
++    }
++
++//    @Override
++//    public PaymentLink createPaypalPaymentLink(UserDTO user,
++//                                               Long Amount,
++//                                               Long orderId) {
++//
++//        Long amount=Amount*100;
++//
++//        PaypalClient paypal= new PaypalClient(paypalApiKey,paypalApiSecret);
++//
++//        JSONObject paymentLinkRequest=new JSONObject();
++//        paymentLinkRequest.put("amount",amount);
++//        paymentLinkRequest.put("currency","LKR");
++//
++//        JSONObject customer=new JSONObject();
++//        customer.put("name",user.getFullName());
++//        customer.put("email",user.getEmail());
++//
++//        paymentLinkRequest.put("customer",customer);
++//
++//        JSONObject notify=new JSONObject();
++//        notify.put("email",true);
++//
++//        paymentLinkRequest.put("notify",notify);
++//
++//        paymentLinkRequest.put("reminder_enable",true);
++//
++//        paymentLinkRequest.put("callback_url","http://localhost:3000/payment-success/"+orderId);
++//
++//        paymentLinkRequest.put("callback_method","get");
++//
++//        return paypal.paymentLink.create(paymentLinkRequest);
++//
++//    }
++
++    @Override
++    public String createStripePaymentLink(UserDTO user,
++                                          Long amount,
++                                          Long orderId) throws StripeException {
++        Stripe.apiKey=stripeSecretKey;
++
++        SessionCreateParams params = SessionCreateParams.builder()
++                .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
++                .setMode(SessionCreateParams.Mode.PAYMENT)
++                .setSuccessUrl("http://localhost:3000/payment-success/"+orderId)
++                .setCancelUrl("http://localhost:3000/payment/cancel")
++                .addLineItem(SessionCreateParams.LineItem.builder()
++                                .setQuantity(1L)
++                                .setPriceData(SessionCreateParams.LineItem.PriceData.builder()                                . setCurrency("usd")
++                                .setUnitAmount(amount*100)
++                                .setProductData(SessionCreateParams
++                                        .LineItem
++                                        .PriceData
++                                        .ProductData
++                                        .builder().setName("salon appointment booking").build()
++                                ).build()
++                                ).build()
++                ).build();
++      Session session = Session.create(params);
++        return session.getUrl();
++    }
++
++    @Override
++    public Boolean proceedPayment(PaymentOrder paymentOrder,
++                                  String paymentId,
++                                  String paymentLinkId) {
++        if (paymentOrder.getStatus().equals(PaymentOrderStatus.PENDING)){
++            paymentOrder.setStatus(PaymentOrderStatus.SUCCESS) ;
++            paymentOrderRepository.save(paymentOrder) ;
++            return true;
++        }
++return false;
++    }
++}
+Index: payment-service/src/main/java/com/nethmini/controller/HomeController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/controller/HomeController.java b/payment-service/src/main/java/com/nethmini/controller/HomeController.java
+new file mode 100644
+--- /dev/null	(date 1756208293215)
++++ b/payment-service/src/main/java/com/nethmini/controller/HomeController.java	(date 1756208293215)
+@@ -0,0 +1,14 @@
++package com.nethmini.controller;
++
++
++import org.springframework.web.bind.annotation.GetMapping;
++import org.springframework.web.bind.annotation.RestController;
++
++@RestController
++public class HomeController {
++
++    @GetMapping
++    public String HomeControllerHandler() {
++        return "payment microservice for salon booking system";
++    }
++}
+Index: payment-service/src/main/java/com/nethmini/domain/PaymentMethod.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/domain/PaymentMethod.java b/payment-service/src/main/java/com/nethmini/domain/PaymentMethod.java
+new file mode 100644
+--- /dev/null	(date 1756209233516)
++++ b/payment-service/src/main/java/com/nethmini/domain/PaymentMethod.java	(date 1756209233516)
+@@ -0,0 +1,6 @@
++package com.nethmini.domain;
++
++public enum PaymentMethod {
++    STRIPE,
++    PAYPAL
++}
+Index: user-service/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n\txsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n\t<modelVersion>4.0.0</modelVersion>\r\n\t<parent>\r\n\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t<artifactId>spring-boot-starter-parent</artifactId>\r\n\t\t<version>3.4.9</version>\r\n\t\t<relativePath/> <!-- lookup parent from repository -->\r\n\t</parent>\r\n\t<groupId>com.nethmini</groupId>\r\n\t<artifactId>user-service</artifactId>\r\n\t<version>0.0.1-SNAPSHOT</version>\r\n\t<name>user-service</name>\r\n\t<description>User service for salon booking system</description>\r\n\t<url/>\r\n\t<licenses>\r\n\t\t<license/>\r\n\t</licenses>\r\n\t<developers>\r\n\t\t<developer/>\r\n\t</developers>\r\n\t<scm>\r\n\t\t<connection/>\r\n\t\t<developerConnection/>\r\n\t\t<tag/>\r\n\t\t<url/>\r\n\t</scm>\r\n\t<properties>\r\n\t\t<java.version>21</java.version>\r\n\t</properties>\r\n\t<dependencies>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-web</artifactId>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-devtools</artifactId>\r\n\t\t\t<scope>runtime</scope>\r\n\t\t\t<optional>true</optional>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-test</artifactId>\r\n\t\t\t<scope>test</scope>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-data-jpa</artifactId>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>com.mysql</groupId>\r\n\t\t\t<artifactId>mysql-connector-j</artifactId>\r\n\t\t\t<scope>runtime</scope>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-validation</artifactId>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.projectlombok</groupId>\r\n\t\t\t<artifactId>lombok</artifactId>\r\n\t\t\t<scope>annotationProcessor</scope>\r\n\t\t</dependency>\r\n\t</dependencies>\r\n\r\n\t<build>\r\n\t\t<plugins>\r\n\t\t\t<plugin>\r\n\t\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t\t<artifactId>spring-boot-maven-plugin</artifactId>\r\n\t\t\t</plugin>\r\n\t\t</plugins>\r\n\t</build>\r\n\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user-service/pom.xml b/user-service/pom.xml
+--- a/user-service/pom.xml	(revision bd425b851b1fcfc55865abc084d840ccab733024)
++++ b/user-service/pom.xml	(date 1758714356456)
+@@ -28,7 +28,19 @@
+ 	</scm>
+ 	<properties>
+ 		<java.version>21</java.version>
++		<spring-cloud.version>2024.0.2</spring-cloud.version>
+ 	</properties>
++	<dependencyManagement>
++		<dependencies>
++			<dependency>
++				<groupId>org.springframework.cloud</groupId>
++				<artifactId>spring-cloud-dependencies</artifactId>
++				<version>${spring-cloud.version}</version>
++				<type>pom</type>
++				<scope>import</scope>
++			</dependency>
++		</dependencies>
++	</dependencyManagement>
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>org.springframework.boot</groupId>
+@@ -63,6 +75,10 @@
+ 			<groupId>org.projectlombok</groupId>
+ 			<artifactId>lombok</artifactId>
+ 			<scope>annotationProcessor</scope>
++		</dependency>
++		<dependency>
++			<groupId>org.springframework.cloud</groupId>
++			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+ 		</dependency>
+ 	</dependencies>
+ 
+Index: payment-service/src/main/java/com/nethmini/domain/PaymentOrderStatus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/payment-service/src/main/java/com/nethmini/domain/PaymentOrderStatus.java b/payment-service/src/main/java/com/nethmini/domain/PaymentOrderStatus.java
+new file mode 100644
+--- /dev/null	(date 1756208467877)
++++ b/payment-service/src/main/java/com/nethmini/domain/PaymentOrderStatus.java	(date 1756208467877)
+@@ -0,0 +1,7 @@
++package com.nethmini.domain;
++
++public enum PaymentOrderStatus {
++    PENDING,
++    SUCCESS,
++    FAILED,
++}
