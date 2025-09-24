@@ -1,4 +1,4 @@
-package service;
+package com.nethmini.service;
 
 import com.nethmini.modal.Salon;
 import com.nethmini.payload.dto.SalonDTO;

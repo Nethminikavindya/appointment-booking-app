@@ -4,7 +4,7 @@ import com.nethmini.mapper.SalonMapper;
 import com.nethmini.modal.Salon;
 import com.nethmini.payload.dto.SalonDTO;
 import com.nethmini.payload.dto.UserDTO;
-import service.SalonService;
+import com.nethmini.service.SalonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

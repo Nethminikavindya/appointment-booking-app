@@ -3,8 +3,7 @@ package com.nethmini.modal;
 import lombok.Data;
 
 @Data
-public class SalonReport {
-    private Long salonId;
+public class SalonReport { private Long salonId;
     private String salonName;
     private int totalEarnings;
     private Integer totalBookings;
