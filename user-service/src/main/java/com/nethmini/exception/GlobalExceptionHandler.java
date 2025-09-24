@@ -1,6 +1,6 @@
 package com.nethmini.exception;
 
-import com.nethmini.payload.response.ExceptionResponse;
+import com.nethmini.payload.ExceptionResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

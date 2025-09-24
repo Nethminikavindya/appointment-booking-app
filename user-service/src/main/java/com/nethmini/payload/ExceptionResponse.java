@@ -1,4 +1,4 @@
-package com.nethmini.payload.response;
+package com.nethmini.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
